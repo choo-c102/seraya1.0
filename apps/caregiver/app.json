@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Seraya Caregiver",
+    "slug": "seraya-caregiver",
+    "scheme": "seraya-caregiver",
+    "version": "0.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "care.seraya.caregiver"
+    },
+    "android": {
+      "package": "care.seraya.caregiver"
+    }
+  }
+}

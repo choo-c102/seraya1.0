@@ -1,0 +1,401 @@
+{
+  "metadata": {
+    "generated_date": "2026-05-09",
+    "date_range": {
+      "start": "2026-04-10",
+      "end": "2026-05-09"
+    },
+    "notes": "30 days of mock check-in data for 3 patients. Days are indexed 0-29 where day 0 = April 10, day 29 = May 9."
+  },
+  "questions": {
+    "vision": {
+      "id": "vision",
+      "text": "How is your vision today?",
+      "type": "scale",
+      "scale": "1-5",
+      "icon": "eye",
+      "labels": {
+        "1": "Very blurry",
+        "2": "Blurry",
+        "3": "Okay",
+        "4": "Clear",
+        "5": "Very clear"
+      }
+    },
+    "sleep": {
+      "id": "sleep",
+      "text": "How well did you sleep last night?",
+      "type": "scale",
+      "scale": "1-5",
+      "icon": "moon",
+      "labels": {
+        "1": "Very poor",
+        "2": "Poor",
+        "3": "Okay",
+        "4": "Good",
+        "5": "Very good"
+      }
+    },
+    "appetite": {
+      "id": "appetite",
+      "text": "How is your appetite today?",
+      "type": "scale",
+      "scale": "1-5",
+      "icon": "utensils",
+      "labels": {
+        "1": "No appetite",
+        "2": "Low appetite",
+        "3": "Normal",
+        "4": "Good appetite",
+        "5": "Very hungry"
+      }
+    },
+    "balance": {
+      "id": "balance",
+      "text": "How steady do you feel on your feet?",
+      "type": "scale",
+      "scale": "1-5",
+      "icon": "activity",
+      "labels": {
+        "1": "Very unsteady",
+        "2": "Unsteady",
+        "3": "Okay",
+        "4": "Steady",
+        "5": "Very steady"
+      }
+    },
+    "hearing": {
+      "id": "hearing",
+      "text": "How is your hearing today?",
+      "type": "scale",
+      "scale": "1-5",
+      "icon": "ear",
+      "labels": {
+        "1": "Very muffled",
+        "2": "Muffled",
+        "3": "Okay",
+        "4": "Clear",
+        "5": "Very clear"
+      }
+    },
+    "memory": {
+      "id": "memory",
+      "text": "How sharp does your mind feel?",
+      "type": "scale",
+      "scale": "1-5",
+      "icon": "brain",
+      "labels": {
+        "1": "Very foggy",
+        "2": "Foggy",
+        "3": "Okay",
+        "4": "Sharp",
+        "5": "Very sharp"
+      }
+    },
+    "toothache": {
+      "id": "toothache",
+      "text": "Any tooth or mouth pain?",
+      "type": "scale",
+      "scale": "1-5",
+      "icon": "smile",
+      "labels": {
+        "1": "Severe pain",
+        "2": "Moderate pain",
+        "3": "Mild discomfort",
+        "4": "Slight sensitivity",
+        "5": "No pain"
+      }
+    },
+    "pain": {
+      "id": "pain",
+      "text": "Where do you feel pain today?",
+      "type": "multiselect",
+      "icon": "alert-circle",
+      "options": [
+        "lower_back",
+        "stomach",
+        "knee",
+        "neck",
+        "wrist",
+        "chest",
+        "ankle",
+        "tailbone",
+        "shoulder",
+        "headache",
+        "elbow",
+        "upper_traps"
+      ],
+      "labels": {
+        "lower_back": "Lower back",
+        "stomach": "Stomach",
+        "knee": "Knee",
+        "neck": "Neck",
+        "wrist": "Wrist",
+        "chest": "Chest",
+        "ankle": "Ankle",
+        "tailbone": "Tailbone",
+        "shoulder": "Shoulder",
+        "headache": "Headache",
+        "elbow": "Elbow",
+        "upper_traps": "Upper shoulders/traps"
+      }
+    },
+    "tired": {
+      "id": "tired",
+      "text": "How tired do you feel?",
+      "type": "scale",
+      "scale": "1-5",
+      "icon": "battery",
+      "labels": {
+        "1": "Exhausted",
+        "2": "Very tired",
+        "3": "Somewhat tired",
+        "4": "A little tired",
+        "5": "Energetic"
+      }
+    }
+  },
+  "patients": [
+    {
+      "id": "siti",
+      "name": "Siti Aminah",
+      "initials": "SA",
+      "age": 82,
+      "gender": "female",
+      "avatar_color": "amber",
+      "questionnaire": {
+        "id": "generic-8q",
+        "name": "Generic 8 Questions",
+        "questions": ["vision", "sleep", "appetite", "balance", "hearing", "memory", "toothache", "pain"]
+      },
+      "alerts": [
+        {
+          "type": "sleep_decline",
+          "severity": "moderate",
+          "triggered_date": "2026-05-06",
+          "message": "Sleep quality rated ≤2 for 4 consecutive days",
+          "threshold": {
+            "metric": "sleep",
+            "condition": "<=2",
+            "consecutive_days": 4
+          }
+        },
+        {
+          "type": "appetite_decline",
+          "severity": "moderate",
+          "triggered_date": "2026-05-07",
+          "message": "Appetite rated ≤2 for 3 consecutive days",
+          "threshold": {
+            "metric": "appetite",
+            "condition": "<=2",
+            "consecutive_days": 3
+          }
+        },
+        {
+          "type": "toothache_persistent",
+          "severity": "monitor",
+          "triggered_date": "2026-05-02",
+          "message": "Toothache reported (≤3) for 7+ days",
+          "threshold": {
+            "metric": "toothache",
+            "condition": "<=3",
+            "consecutive_days": 7
+          }
+        }
+      ],
+      "checkins": [
+        {"day": 0, "date": "2026-04-10", "completed": true, "time": "08:45", "scores": {"vision": 4, "sleep": 4, "appetite": 4, "balance": 3, "hearing": 4, "memory": 4, "toothache": 5, "pain": []}},
+        {"day": 1, "date": "2026-04-11", "completed": true, "time": "09:10", "scores": {"vision": 4, "sleep": 4, "appetite": 4, "balance": 3, "hearing": 4, "memory": 3, "toothache": 5, "pain": []}},
+        {"day": 2, "date": "2026-04-12", "completed": true, "time": "08:30", "scores": {"vision": 3, "sleep": 4, "appetite": 4, "balance": 3, "hearing": 4, "memory": 4, "toothache": 5, "pain": ["knee"]}},
+        {"day": 3, "date": "2026-04-13", "completed": true, "time": "09:00", "scores": {"vision": 4, "sleep": 3, "appetite": 4, "balance": 4, "hearing": 4, "memory": 4, "toothache": 4, "pain": []}},
+        {"day": 4, "date": "2026-04-14", "completed": true, "time": "08:50", "scores": {"vision": 4, "sleep": 4, "appetite": 4, "balance": 3, "hearing": 3, "memory": 4, "toothache": 4, "pain": []}},
+        {"day": 5, "date": "2026-04-15", "completed": true, "time": "09:20", "scores": {"vision": 4, "sleep": 3, "appetite": 4, "balance": 3, "hearing": 4, "memory": 3, "toothache": 3, "pain": ["lower_back"]}},
+        {"day": 6, "date": "2026-04-16", "completed": true, "time": "08:40", "scores": {"vision": 4, "sleep": 4, "appetite": 3, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": []}},
+        {"day": 7, "date": "2026-04-17", "completed": true, "time": "09:05", "scores": {"vision": 3, "sleep": 3, "appetite": 4, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": ["knee"]}},
+        {"day": 8, "date": "2026-04-18", "completed": true, "time": "08:55", "scores": {"vision": 4, "sleep": 3, "appetite": 3, "balance": 4, "hearing": 4, "memory": 4, "toothache": 4, "pain": []}},
+        {"day": 9, "date": "2026-04-19", "completed": true, "time": "09:15", "scores": {"vision": 4, "sleep": 3, "appetite": 4, "balance": 3, "hearing": 3, "memory": 3, "toothache": 3, "pain": []}},
+        {"day": 10, "date": "2026-04-20", "completed": true, "time": "08:35", "scores": {"vision": 4, "sleep": 4, "appetite": 3, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": ["lower_back"]}},
+        {"day": 11, "date": "2026-04-21", "completed": true, "time": "09:00", "scores": {"vision": 3, "sleep": 3, "appetite": 4, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": []}},
+        {"day": 12, "date": "2026-04-22", "completed": true, "time": "08:45", "scores": {"vision": 4, "sleep": 2, "appetite": 3, "balance": 3, "hearing": 4, "memory": 3, "toothache": 3, "pain": ["knee"]}},
+        {"day": 13, "date": "2026-04-23", "completed": true, "time": "09:10", "scores": {"vision": 4, "sleep": 3, "appetite": 3, "balance": 4, "hearing": 4, "memory": 4, "toothache": 4, "pain": []}},
+        {"day": 14, "date": "2026-04-24", "completed": true, "time": "08:50", "scores": {"vision": 4, "sleep": 3, "appetite": 4, "balance": 3, "hearing": 3, "memory": 4, "toothache": 3, "pain": []}},
+        {"day": 15, "date": "2026-04-25", "completed": true, "time": "09:05", "scores": {"vision": 3, "sleep": 2, "appetite": 3, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": ["lower_back"]}},
+        {"day": 16, "date": "2026-04-26", "completed": true, "time": "08:40", "scores": {"vision": 4, "sleep": 3, "appetite": 3, "balance": 3, "hearing": 4, "memory": 3, "toothache": 3, "pain": []}},
+        {"day": 17, "date": "2026-04-27", "completed": true, "time": "09:15", "scores": {"vision": 4, "sleep": 3, "appetite": 3, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": ["knee"]}},
+        {"day": 18, "date": "2026-04-28", "completed": true, "time": "08:55", "scores": {"vision": 4, "sleep": 2, "appetite": 3, "balance": 4, "hearing": 4, "memory": 4, "toothache": 3, "pain": []}},
+        {"day": 19, "date": "2026-04-29", "completed": true, "time": "09:00", "scores": {"vision": 3, "sleep": 3, "appetite": 2, "balance": 3, "hearing": 3, "memory": 3, "toothache": 3, "pain": ["lower_back"]}},
+        {"day": 20, "date": "2026-04-30", "completed": true, "time": "08:45", "scores": {"vision": 4, "sleep": 2, "appetite": 3, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": []}},
+        {"day": 21, "date": "2026-05-01", "completed": true, "time": "09:10", "scores": {"vision": 4, "sleep": 3, "appetite": 3, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": ["knee"]}},
+        {"day": 22, "date": "2026-05-02", "completed": true, "time": "08:50", "scores": {"vision": 3, "sleep": 2, "appetite": 2, "balance": 3, "hearing": 3, "memory": 3, "toothache": 3, "pain": []}},
+        {"day": 23, "date": "2026-05-03", "completed": true, "time": "09:05", "scores": {"vision": 4, "sleep": 2, "appetite": 3, "balance": 4, "hearing": 4, "memory": 4, "toothache": 3, "pain": ["lower_back"]}},
+        {"day": 24, "date": "2026-05-04", "completed": true, "time": "08:40", "scores": {"vision": 4, "sleep": 3, "appetite": 2, "balance": 3, "hearing": 4, "memory": 3, "toothache": 3, "pain": []}},
+        {"day": 25, "date": "2026-05-05", "completed": true, "time": "09:15", "scores": {"vision": 4, "sleep": 3, "appetite": 3, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": ["knee"]}},
+        {"day": 26, "date": "2026-05-06", "completed": true, "time": "08:55", "scores": {"vision": 3, "sleep": 2, "appetite": 2, "balance": 3, "hearing": 3, "memory": 3, "toothache": 3, "pain": []}},
+        {"day": 27, "date": "2026-05-07", "completed": true, "time": "09:00", "scores": {"vision": 4, "sleep": 2, "appetite": 2, "balance": 3, "hearing": 4, "memory": 4, "toothache": 2, "pain": ["lower_back"]}},
+        {"day": 28, "date": "2026-05-08", "completed": true, "time": "08:45", "scores": {"vision": 4, "sleep": 2, "appetite": 2, "balance": 3, "hearing": 4, "memory": 3, "toothache": 3, "pain": []}},
+        {"day": 29, "date": "2026-05-09", "completed": true, "time": "08:30", "scores": {"vision": 4, "sleep": 2, "appetite": 3, "balance": 3, "hearing": 4, "memory": 4, "toothache": 3, "pain": ["knee"]}}
+      ]
+    },
+    {
+      "id": "liew",
+      "name": "Liew En Ching",
+      "initials": "LC",
+      "age": 87,
+      "gender": "female",
+      "avatar_color": "blue",
+      "medical_context": {
+        "diagnosis": "Pancreatic cancer",
+        "treatment": "Chemotherapy (FOLFIRINOX regimen)",
+        "cycle_schedule": "28-day cycles",
+        "infusion_dates": ["2026-04-12", "2026-05-10"],
+        "notes": "Side effects typically peak 3-7 days post-infusion: severe fatigue, nausea affecting appetite, peripheral neuropathy causing pain, mucositis causing mouth pain"
+      },
+      "questionnaire": {
+        "id": "pancreatic-cancer-symptom",
+        "name": "Pancreatic Cancer Side Effect Management",
+        "questions": ["sleep", "appetite", "tired", "toothache", "pain"]
+      },
+      "alerts": [
+        {
+          "type": "post_chemo_appetite",
+          "severity": "urgent",
+          "triggered_date": "2026-04-16",
+          "message": "Severe appetite loss (≤1) for 3 consecutive days post-chemo",
+          "threshold": {
+            "metric": "appetite",
+            "condition": "<=1",
+            "consecutive_days": 3
+          }
+        },
+        {
+          "type": "fatigue_severe",
+          "severity": "urgent",
+          "triggered_date": "2026-04-15",
+          "message": "Extreme fatigue (≤1) for 4 consecutive days",
+          "threshold": {
+            "metric": "tired",
+            "condition": "<=1",
+            "consecutive_days": 4
+          }
+        },
+        {
+          "type": "pain_persistent",
+          "severity": "monitor",
+          "triggered_date": "2026-04-14",
+          "message": "Multiple pain sites reported for 7+ days (likely neuropathy)",
+          "threshold": {
+            "metric": "pain",
+            "condition": "count>=2",
+            "consecutive_days": 7
+          }
+        }
+      ],
+      "checkins": [
+        {"day": 0, "date": "2026-04-10", "completed": true, "time": "10:15", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": ["lower_back"]}},
+        {"day": 1, "date": "2026-04-11", "completed": true, "time": "10:30", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": ["lower_back"]}},
+        {"day": 2, "date": "2026-04-12", "completed": true, "time": "16:45", "scores": {"sleep": 3, "appetite": 2, "tired": 2, "toothache": 4, "pain": ["lower_back", "stomach"]}, "note": "Chemo infusion day 1"},
+        {"day": 3, "date": "2026-04-13", "completed": true, "time": "11:00", "scores": {"sleep": 2, "appetite": 2, "tired": 2, "toothache": 4, "pain": ["stomach", "headache"]}},
+        {"day": 4, "date": "2026-04-14", "completed": true, "time": "10:45", "scores": {"sleep": 2, "appetite": 1, "tired": 1, "toothache": 3, "pain": ["stomach", "headache", "wrist", "ankle"]}},
+        {"day": 5, "date": "2026-04-15", "completed": true, "time": "11:20", "scores": {"sleep": 1, "appetite": 1, "tired": 1, "toothache": 2, "pain": ["stomach", "wrist", "ankle", "shoulder"]}},
+        {"day": 6, "date": "2026-04-16", "completed": true, "time": "10:50", "scores": {"sleep": 2, "appetite": 1, "tired": 1, "toothache": 2, "pain": ["stomach", "wrist", "ankle"]}},
+        {"day": 7, "date": "2026-04-17", "completed": true, "time": "11:05", "scores": {"sleep": 2, "appetite": 1, "tired": 1, "toothache": 3, "pain": ["stomach", "wrist"]}},
+        {"day": 8, "date": "2026-04-18", "completed": true, "time": "10:40", "scores": {"sleep": 2, "appetite": 2, "tired": 2, "toothache": 3, "pain": ["wrist", "ankle"]}},
+        {"day": 9, "date": "2026-04-19", "completed": true, "time": "10:55", "scores": {"sleep": 3, "appetite": 2, "tired": 2, "toothache": 4, "pain": ["lower_back", "wrist"]}},
+        {"day": 10, "date": "2026-04-20", "completed": true, "time": "11:10", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 4, "pain": ["lower_back"]}},
+        {"day": 11, "date": "2026-04-21", "completed": true, "time": "10:30", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": ["lower_back"]}},
+        {"day": 12, "date": "2026-04-22", "completed": true, "time": "10:45", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}},
+        {"day": 13, "date": "2026-04-23", "completed": true, "time": "11:00", "scores": {"sleep": 4, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}},
+        {"day": 14, "date": "2026-04-24", "completed": true, "time": "10:35", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": ["lower_back"]}},
+        {"day": 15, "date": "2026-04-25", "completed": true, "time": "10:50", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}},
+        {"day": 16, "date": "2026-04-26", "completed": true, "time": "11:05", "scores": {"sleep": 4, "appetite": 4, "tired": 4, "toothache": 5, "pain": []}},
+        {"day": 17, "date": "2026-04-27", "completed": true, "time": "10:40", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": ["lower_back"]}},
+        {"day": 18, "date": "2026-04-28", "completed": true, "time": "10:55", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}},
+        {"day": 19, "date": "2026-04-29", "completed": true, "time": "11:10", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}},
+        {"day": 20, "date": "2026-04-30", "completed": true, "time": "10:30", "scores": {"sleep": 4, "appetite": 4, "tired": 4, "toothache": 5, "pain": []}},
+        {"day": 21, "date": "2026-05-01", "completed": true, "time": "10:45", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": ["lower_back"]}},
+        {"day": 22, "date": "2026-05-02", "completed": true, "time": "11:00", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}},
+        {"day": 23, "date": "2026-05-03", "completed": true, "time": "10:35", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}},
+        {"day": 24, "date": "2026-05-04", "completed": true, "time": "10:50", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": ["lower_back"]}},
+        {"day": 25, "date": "2026-05-05", "completed": true, "time": "11:05", "scores": {"sleep": 4, "appetite": 4, "tired": 4, "toothache": 5, "pain": []}},
+        {"day": 26, "date": "2026-05-06", "completed": true, "time": "10:40", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}},
+        {"day": 27, "date": "2026-05-07", "completed": true, "time": "10:55", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": ["lower_back"]}},
+        {"day": 28, "date": "2026-05-08", "completed": true, "time": "11:10", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}},
+        {"day": 29, "date": "2026-05-09", "completed": true, "time": "10:30", "scores": {"sleep": 3, "appetite": 3, "tired": 3, "toothache": 5, "pain": []}}
+      ]
+    },
+    {
+      "id": "siva",
+      "name": "Sivakumar Thangiah",
+      "initials": "ST",
+      "age": 76,
+      "gender": "male",
+      "avatar_color": "green",
+      "medical_context": {
+        "diagnosis": "Type 2 diabetes with peripheral neuropathy, hypertension",
+        "treatment": "Metformin, Lisinopril, insulin as needed",
+        "notes": "Active lifestyle, plays badminton 2x/week (Tue/Sat), occasional hypoglycemic episodes"
+      },
+      "questionnaire": {
+        "id": "diabetes-monitoring",
+        "name": "Diabetes Daily Monitoring",
+        "questions": ["vision", "balance", "tired", "pain", "appetite", "memory"]
+      },
+      "alerts": [
+        {
+          "type": "vision_blur",
+          "severity": "moderate",
+          "triggered_date": "2026-05-05",
+          "message": "Vision rated ≤2 for 3 consecutive days (possible glucose fluctuation)",
+          "threshold": {
+            "metric": "vision",
+            "condition": "<=2",
+            "consecutive_days": 3
+          }
+        },
+        {
+          "type": "neuropathy_pain",
+          "severity": "monitor",
+          "triggered_date": "2026-04-28",
+          "message": "Lower extremity pain reported consistently (neuropathy monitoring)",
+          "threshold": {
+            "metric": "pain",
+            "condition": "includes:ankle,knee",
+            "consecutive_days": 10
+          }
+        }
+      ],
+      "checkins": [
+        {"day": 0, "date": "2026-04-10", "completed": true, "time": "07:30", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}},
+        {"day": 1, "date": "2026-04-11", "completed": true, "time": "07:45", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}},
+        {"day": 2, "date": "2026-04-12", "completed": true, "time": "07:20", "scores": {"vision": 4, "balance": 5, "tired": 5, "pain": [], "appetite": 4, "memory": 4}, "note": "Badminton day - feeling strong"},
+        {"day": 3, "date": "2026-04-13", "completed": true, "time": "07:40", "scores": {"vision": 4, "balance": 4, "tired": 3, "pain": ["knee", "ankle"], "appetite": 4, "memory": 4}, "note": "Sore from badminton"},
+        {"day": 4, "date": "2026-04-14", "completed": true, "time": "07:35", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": ["ankle"], "appetite": 4, "memory": 4}},
+        {"day": 5, "date": "2026-04-15", "completed": true, "time": "07:50", "scores": {"vision": 3, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 3}},
+        {"day": 6, "date": "2026-04-16", "completed": true, "time": "07:25", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 5, "memory": 4}},
+        {"day": 7, "date": "2026-04-17", "completed": false, "time": null, "scores": null, "note": "Missed check-in"},
+        {"day": 8, "date": "2026-04-18", "completed": true, "time": "07:40", "scores": {"vision": 3, "balance": 3, "tired": 3, "pain": ["ankle"], "appetite": 3, "memory": 3}, "note": "Felt lightheaded in morning (possible low glucose)"},
+        {"day": 9, "date": "2026-04-19", "completed": true, "time": "07:35", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}},
+        {"day": 10, "date": "2026-04-20", "completed": true, "time": "07:45", "scores": {"vision": 4, "balance": 5, "tired": 5, "pain": [], "appetite": 4, "memory": 4}, "note": "Badminton day"},
+        {"day": 11, "date": "2026-04-21", "completed": true, "time": "07:30", "scores": {"vision": 4, "balance": 4, "tired": 3, "pain": ["knee"], "appetite": 4, "memory": 4}},
+        {"day": 12, "date": "2026-04-22", "completed": true, "time": "07:50", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}},
+        {"day": 13, "date": "2026-04-23", "completed": true, "time": "07:25", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 5}},
+        {"day": 14, "date": "2026-04-24", "completed": true, "time": "07:40", "scores": {"vision": 3, "balance": 4, "tired": 4, "pain": ["ankle"], "appetite": 4, "memory": 4}},
+        {"day": 15, "date": "2026-04-25", "completed": true, "time": "07:35", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}},
+        {"day": 16, "date": "2026-04-26", "completed": true, "time": "07:45", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 5, "memory": 4}},
+        {"day": 17, "date": "2026-04-27", "completed": true, "time": "07:30", "scores": {"vision": 4, "balance": 5, "tired": 5, "pain": [], "appetite": 4, "memory": 4}, "note": "Badminton day"},
+        {"day": 18, "date": "2026-04-28", "completed": true, "time": "07:50", "scores": {"vision": 3, "balance": 4, "tired": 3, "pain": ["knee", "ankle"], "appetite": 4, "memory": 4}},
+        {"day": 19, "date": "2026-04-29", "completed": true, "time": "07:25", "scores": {"vision": 3, "balance": 4, "tired": 4, "pain": ["ankle"], "appetite": 4, "memory": 3}},
+        {"day": 20, "date": "2026-04-30", "completed": true, "time": "07:40", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}},
+        {"day": 21, "date": "2026-05-01", "completed": true, "time": "07:35", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}},
+        {"day": 22, "date": "2026-05-02", "completed": true, "time": "07:45", "scores": {"vision": 3, "balance": 4, "tired": 4, "pain": ["ankle"], "appetite": 4, "memory": 4}},
+        {"day": 23, "date": "2026-05-03", "completed": true, "time": "07:30", "scores": {"vision": 2, "balance": 5, "tired": 5, "pain": ["ankle"], "appetite": 5, "memory": 4}, "note": "Badminton day - vision slightly blurry after game"},
+        {"day": 24, "date": "2026-05-04", "completed": true, "time": "07:50", "scores": {"vision": 2, "balance": 4, "tired": 3, "pain": ["knee", "ankle"], "appetite": 4, "memory": 3}},
+        {"day": 25, "date": "2026-05-05", "completed": true, "time": "07:25", "scores": {"vision": 2, "balance": 4, "tired": 4, "pain": ["ankle"], "appetite": 3, "memory": 3}, "note": "Vision still blurry - should check glucose"},
+        {"day": 26, "date": "2026-05-06", "completed": true, "time": "07:40", "scores": {"vision": 3, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}, "note": "Vision improving"},
+        {"day": 27, "date": "2026-05-07", "completed": true, "time": "07:35", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}},
+        {"day": 28, "date": "2026-05-08", "completed": true, "time": "07:45", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": ["ankle"], "appetite": 4, "memory": 5}},
+        {"day": 29, "date": "2026-05-09", "completed": true, "time": "07:30", "scores": {"vision": 4, "balance": 4, "tired": 4, "pain": [], "appetite": 4, "memory": 4}}
+      ]
+    }
+  ]
+}

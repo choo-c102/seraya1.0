@@ -1,0 +1,18 @@
+{
+  "name": "seraya",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Seraya — health monitoring app for seniors and caregivers (monorepo).",
+  "packageManager": "pnpm@11.1.2",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "elderly": "pnpm --filter @seraya/elderly start",
+    "caregiver": "pnpm --filter @seraya/caregiver start",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

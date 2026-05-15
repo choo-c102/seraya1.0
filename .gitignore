@@ -1,0 +1,65 @@
+# --- Secrets — never commit ---
+.env
+.env.local
+.env.*.local
+.env.production
+.env.staging
+.env.development
+
+# Keys / certificates
+*.key
+*.pem
+*.p12
+*.mobileprovision
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist
+
+# --- Dependencies ---
+node_modules/
+.pnpm-store/
+
+# --- Expo / React Native build output ---
+.expo/
+.expo-shared/
+dist/
+web-build/
+ios/
+android/
+*.apk
+*.ipa
+*.aab
+*.dSYM.zip
+
+# --- Supabase ---
+.supabase/
+supabase/.branches/
+supabase/.temp/
+
+# --- Build tooling ---
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.turbo/
+.cache/
+coverage/
+
+# --- Claude Code session state ---
+.claude/
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- TypeScript / build artifacts ---
+*.tsbuildinfo

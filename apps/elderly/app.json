@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "Seraya",
+    "slug": "seraya-elderly",
+    "scheme": "seraya-elderly",
+    "version": "0.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "care.seraya.elderly"
+    },
+    "android": {
+      "package": "care.seraya.elderly"
+    }
+  }
+}
