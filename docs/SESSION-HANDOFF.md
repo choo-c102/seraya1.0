@@ -1,208 +1,170 @@
-# Seraya — Session Handoff (2026-05-16)
+# Seraya — Session Handoff
 
-This document is the cold-start brief for the next Claude Code session. The original 7-step plan is in the user's first message; below is what's actually done, what's pending, and the exact next action.
+> **Convention:** This file MUST be kept current. Update it as the working session approaches a context / plan / token limit, OR at every meaningful milestone, whichever comes first. The cold-start agent reads this file before doing anything else.
 
-## TL;DR
+Last updated: 2026-05-16 (mid-day, after the screen scaffold + web verification attempts).
 
-- **Done:** Figma inventory written, monorepo scaffolded, git initialised, **private** GitHub repo `choo-c102/seraya1.0` created with `origin` wired locally.
-- **Nothing has been pushed yet.** No `pnpm install` has been run. No commit has been made.
-- **Blocked on:** user-provided Supabase Personal Access Token + project choice. Step 5 of the plan.
+---
 
-## Repo location
+## TL;DR — where we are right now
 
-- Local: `C:\Users\chery\projects\seraya`
-- Remote: `https://github.com/choo-c102/seraya1.0` (private, empty, default branch `main`)
-- Git remote `origin` already points to the private repo. Branch is `main`. No commits yet.
+1. **Foundations done & committed (2 commits on `main`):**
+   - `c7f5300` initial scaffold (monorepo, 9 Supabase tables seeded, Figma inventory written from metadata).
+   - `dc0a352` web preview wired + visual audit of all 23 Figma frames + design tokens extracted to `packages/shared/src/design-tokens.ts`.
+2. **23 screens scaffolded but NOT YET COMMITTED.** A general-purpose subagent built every route documented in `docs/design-inventory.md` and wired them to mock data. `pnpm -r typecheck` passes cleanly. Both web bundles compile. Elderly Welcome screen renders correctly in browser.
+3. **Stuck on screenshot verification.** The Welcome screen's `react-native-reanimated` spinner uses `withRepeat(..., -1)` which keeps `requestAnimationFrame` busy on web *forever*. The Claude Preview screenshot tool waits for renderer idle, so screenshots time out at 30 s on every route. This does NOT mean the screens are broken — DOM eval confirms they render. It's just a verification blocker.
+4. **Two preview servers are currently running** (will need to be re-started on resume):
+   - `elderly-web` on port 8081, server id was `b2430e9b-e537-4108-9ca3-b099ef1cc129`.
+   - `caregiver-web` on port 8082, server id was `c1b64492-1ead-4314-a67c-e09f1507ab78`.
+   - Stop them with `mcp__Claude_Preview__preview_stop` or `taskkill //PID <pid> //F` if they're still alive. Restart via `mcp__Claude_Preview__preview_start` with names `elderly-web` / `caregiver-web` (already in `.claude/launch.json`).
 
-## What changed re: the original plan
+## Immediate next action (do this first on resume)
 
-- The repo name **was changed** from `seraya-app` to `seraya1.0` because `choo-c102/seraya-app` already existed as a public repo with an unrelated active Convex backend project (last commit 2026-05-15). Confirmed with user; they chose the new name. The old repo was **not** touched.
-- The Figma design inventory was generated from **structural metadata only**, not from visual screenshots. The Figma MCP server (Starter plan) rate-limited us before screenshots could be downloaded. The inventory is honest about this — every entry is marked with caveats. Re-running visual inspection once the Figma quota resets is a pending follow-up.
-- `pnpm` and `gh` were installed via `npm i -g pnpm` and `winget install GitHub.cli`. User authenticated `gh` interactively (account: `choo-c102`).
+1. **Stop & restart the dev preview servers** to clear any zombie state.
+2. **Fix the spinner so reanimated stops infinite-RAF on web.** Two equivalent options:
+   - In `apps/elderly/app/welcome.tsx` and `apps/caregiver/app/welcome.tsx` (if present), guard the `withRepeat` call behind `Platform.OS !== "web"`, OR replace the entire spinner animation with a tiny CSS `@keyframes` rule applied on web only via `style={{ animation: "spin 1.4s linear infinite" }}` (RN-Web passes raw style strings through).
+   - Cleanest: build a `<Spinner />` component in `apps/<app>/components/` that uses reanimated on native and a CSS-only rotation on web. Add `@keyframes spin { to { transform: rotate(360deg); } }` to the document head once via `useEffect` on mount.
+3. **Re-take the elderly tour:** `/`, `/welcome`, `/role-select`, `/login`, `/checkin/question/[first-question-id]`, `/checkin/complete`. Use `mcp__Claude_Preview__preview_eval` with `window.location.href = '/path'` to navigate, then `mcp__Claude_Preview__preview_screenshot`.
+4. **Repeat the tour for caregiver** on port 8082: `/`, `/welcome`, `/role-select`, `/login`, `/(tabs)/dashboard`, `/(tabs)/dashboard/siti/trends`, `/(tabs)/dashboard/siti/heatmap`, `/(tabs)/dashboard/siti/insights`, `/(tabs)/build`, `/(tabs)/build/senior/siti/questionnaire/<qid>`, then walk through the 5 wizard steps.
+5. **Commit the screen scaffolding** as a single milestone once at least the elderly flow has been visually confirmed. Suggested message in the "Suggested commit" section below.
+6. **Send to the user** a concise "what's working / what's rough / what's broken" summary so they can pilot the next decision.
 
-## Step-by-step status
+## Verified facts (don't redo this work)
 
-| Step | Status | Notes |
-|---|---|---|
-| 1. Figma read + inventory | ✅ Done (with caveat) | `docs/design-inventory.md`. Metadata-only; not visually verified. 23 screens inventoried, full component glossary, shared patterns + open questions. |
-| 2. Init git + create private repo | ✅ Done | Repo: `choo-c102/seraya1.0`. Local `main` branch. `origin` wired. **No push yet.** |
-| 3. Scaffold monorepo | ✅ Done | Structure below. **`pnpm install` not yet run** — `node_modules/` does not exist. |
-| 4. Security files | ✅ Done | `.gitignore`, `.env.example`, `packages/shared/src/supabase.ts` (reads from env, throws if missing). |
-| 5. Credentials collected + Supabase setup | ✅ Done | User provided PAT + Anthropic key. Project `seraya1.0` (ref `dulxshbpkivndkjhscui`) is `ACTIVE_HEALTHY` in `ap-southeast-1`. Anon + service-role keys fetched via Management API. All written to `.env` (gitignored). MCP server config NOT yet added — see "Supabase MCP setup" below. |
-| 5a. Draft initial migration | ✅ Done | `supabase/migrations/0001_init.sql`. **Applied to live project on 2026-05-16** via Management API SQL endpoint. |
-| 6. Convert mock JSON to `supabase/seed.sql` | ✅ Done | Generator at `supabase/scripts/generate-seed.mjs` writes directly to `supabase/seed.sql` (no PowerShell BOM). **Seed applied and verified** — 9 questions, 3 seniors, 1 demo caregiver, 90 check-ins, 564 score rows, 8 alerts. Sivakumar's missed day-7 preserved as `completed=false`. Alert `triggered_at` uses noon SGT (12:00+08) so the UTC-converted date doesn't flip. |
-| 7. Push initial commit | ⏳ Pending | Awaiting `pnpm install` completion → lockfile commit → push. |
+- `pnpm -r typecheck` PASSES on all 3 workspace packages (`packages/shared`, `apps/elderly`, `apps/caregiver`).
+- Both apps' web bundles compile via `npx expo export --platform web` — ~3.6 MB JS each, 2536 modules.
+- The dev-server bundle compiles in ~22 s (elderly) / ~30 s (caregiver) on first hit. ~10.5 MB JS in dev mode.
+- Welcome screen renders correctly on web: cream background, line-art 3-tree mark, SERAYA wordmark, tagline, ENTER pill. Visually matches the Figma reference closely.
+- `packages/shared/src/supabase.ts` was rewritten this session to **lazy-init** via a Proxy — the old version threw at module import time when env vars were missing, which crashed every screen that touched the shared barrel. Lazy version is committed to disk but not yet committed to git.
 
-## File tree as of end of session
+## Known live issues / hand-fix list
+
+In order of urgency:
+
+1. **Reanimated infinite RAF on web** — see "Immediate next action" above. Symptom: `preview_screenshot` times out.
+2. **Welcome spinner spec drift on second app.** Verify the same fix lands in `apps/caregiver/app/welcome.tsx` if/once that file uses the same animation pattern.
+3. **Body pain map silhouettes are rough geometry**, not anatomical drawings. Recognisable but ugly. Replace with proper SVG assets when a designer is available.
+4. **BrandTreesMark** is inline SVG with hand-rolled paths — serviceable, not a faithful trace of the Figma original. Could be exported from Figma as an asset later.
+5. **TrendLineChart** is plain `react-native-svg` with one line, no markers, no tooltips, no axis labels styling beyond what tokens dictate. Fine for demo; needs a real charting lib (`victory-native` or `react-native-skia`) for shipping.
+6. **Wizard step 4 "slider"** is a 10-cell tap-dot row, not a draggable knob — avoids adding `@react-native-community/slider`. Replace if real slider UX matters.
+7. **Drag-reorder in `QuestionBuilderScreen`** is purely visual (a `GripVertical` icon next to each row). Wire `react-native-draggable-flatlist` for real DnD.
+8. **Wizard output is not persisted.** When the user hits step 5 "Save", nothing is written anywhere. Either commit to local AsyncStorage / Zustand store, or wire to Supabase. The mock-data JSON is read-only.
+9. **`phosphor:Tooth` → `lucide:Bone` substitution** in `apps/<app>/components/Icon.tsx` looks weird in context (e.g. the Toothache condition icon shows a bone). Acceptable workarounds: inline a custom tooth SVG, or use an emoji 🦷 wrapped in a tile.
+10. **Date-range pills** 90D / 1Y cap to 30 days of data (mock JSON only has 30 days). Either generate more mock data or hide the longer ranges in the UI.
+11. **Bell icon on Select Senior** triggers a stub `Alert.alert` instead of opening a notifications panel.
+12. **Typed routes are disabled** in both `app.json`s (`experiments.typedRoutes: false`) because the auto-generated `.expo/types/router.d.ts` only listed `/` and `/_sitemap` at scaffold time. Re-enable later by running `npx expo start` which regenerates the types, then flipping the flag back on. Doing so is **not** trivial — it requires hand-correcting every `router.push("/...")` call to match the typed route shape.
+13. **`shadow*` style props deprecated warning** is filling the dev console on web. RN-Web prefers `boxShadow` now. Migrate the `shadows` token in `design-tokens.ts` to use the new prop, OR conditionally compose shadow styles per platform.
+
+## Suggested commit (once verification is done)
 
 ```
-seraya/
-├── .git/                              # local repo, no commits
-├── .gitignore                         # excludes .env*, node_modules, .expo, ios, android, *.log, .DS_Store, .supabase, *.key, *.pem, *.p12, *.mobileprovision, *.keystore, *.jks, GoogleService-Info.plist, google-services.json
-├── .env.example                       # template only — no real values
-├── .npmrc                             # node-linker=hoisted (required for Expo + pnpm)
-├── README.md
-├── package.json                       # pnpm workspace root, packageManager=pnpm@11.1.2
-├── pnpm-workspace.yaml                # packages: apps/*, packages/*
-├── tsconfig.base.json                 # strict + noUncheckedIndexedAccess + noImplicitOverride
-├── apps/
-│   ├── elderly/
-│   │   ├── package.json               # @seraya/elderly, expo ~52, expo-router ~4, react-native 0.76, reanimated 3.16
-│   │   ├── app.json                   # bundleId care.seraya.elderly, newArchEnabled, typed routes
-│   │   ├── tsconfig.json              # extends tsconfig.base.json, paths @/* -> ./*
-│   │   ├── babel.config.js            # babel-preset-expo + reanimated/plugin
-│   │   └── app/
-│   │       ├── _layout.tsx            # GestureHandlerRootView + SafeAreaProvider + Stack
-│   │       └── index.tsx              # SERAYA wordmark placeholder
-│   └── caregiver/
-│       ├── package.json               # @seraya/caregiver — same deps as elderly
-│       ├── app.json                   # bundleId care.seraya.caregiver
-│       ├── tsconfig.json
-│       ├── babel.config.js
-│       └── app/
-│           ├── _layout.tsx
-│           └── index.tsx              # "Seraya Caregiver" placeholder
-├── packages/
-│   └── shared/
-│       ├── package.json               # @seraya/shared, depends on @supabase/supabase-js ^2.45
-│       ├── tsconfig.json
-│       └── src/
-│           ├── index.ts               # barrel
-│           ├── supabase.ts            # createClient<Database>, throws if env missing
-│           └── types.ts               # placeholder Database type
-├── supabase/
-│   ├── migrations/                    # empty — schema not designed yet
-│   └── seed.sql                       # placeholder comment only
-└── docs/
-    ├── design-inventory.md            # ~470 lines, 23 screens, full glossary
-    └── SESSION-HANDOFF.md             # this file
+feat: scaffold all 23 routes wired to mock data
+
+- Build out every screen in docs/design-inventory.md for both apps:
+  elderly check-in flow (welcome → role-select → login → 3 question
+  types → completion) and caregiver dashboard (senior list → top-tab
+  trends/heatmap/insights → heatmap day-detail) + build flow
+  (questionnaire list → builder → 5-step wizard).
+- New shared components in apps/<app>/components/: Icon, PillButton,
+  Avatar, ScreenHeader, SeniorProfileSummary, AlertBanner, TopTabBar,
+  StatusPill, TrendLineChart, HeatmapGrid, HeatmapLegend, DayDetailCard,
+  ConditionChipStrip, DateRangePicker, LatestCheckinSummary, AlertCard,
+  EmojiScale, BinaryChoice, BodyPainMap, BrandTreesMark.
+- lib/mock-data.ts in each app reads the seed JSON via Metro JSON
+  import; lib/wizard-store.ts holds in-memory wizard state.
+- metro.config.js in each app adds the supabase/seed-data/ folder to
+  watchFolders so the JSON resolves through pnpm.
+- Lazy-init Supabase client in packages/shared/src/supabase.ts via a
+  Proxy so screens that only consume mock data don't trip the missing-
+  env-var throw at module load.
+- Typed routes turned off in app.json for both apps (router.d.ts only
+  declared / and /_sitemap at scaffold time; re-enable once the routes
+  stabilise and Expo regenerates the manifest).
+
+Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
 ```
 
-## Credentials state
+## Open user decisions / pending items
 
-All collected on 2026-05-16. Stored in `.env` (gitignored). User pasted these in chat, so **rotation after the initial commit is recommended** (see "Security follow-up" below).
+- **Wizard emoji style:** user picked "native OS emojis for now, with the option to change in the next version update." A `<Emoji>` component should be the swap point — verify the subagent created one (in `apps/<app>/components/`).
+- **Create New on Build screen:** user picked "New senior + new questionnaire." Route is `/(tabs)/build/new-senior.tsx` → wizard step 1. Verify the subagent wired this correctly.
+- **Pain-point silhouettes:** dual front/back silhouettes with tap zones, per the previous conversation. The subagent built rough geometric silhouettes — adequate for demo, will need real artwork later.
+- **Figma plan upgrade:** user is on Starter (capped). Visual sweep is unblocked by the manual PNG export. No further Figma MCP calls needed for now.
+- **Secrets rotation (from session #1):** Supabase PAT `sbp_56f5b4...49908` and Anthropic key `sk-ant-api03-bYdV...gftfOQ-nnvP7wAA` were both pasted in plaintext earlier. Should be rotated at <https://supabase.com/dashboard/account/tokens> and <https://console.anthropic.com/settings/keys>. Still **not yet rotated**.
 
-| Credential | Status | Stored as | Source |
-|---|---|---|---|
-| Supabase PAT | ✅ set | `SUPABASE_ACCESS_TOKEN` | User-provided |
-| Supabase project URL | ✅ set | `EXPO_PUBLIC_SUPABASE_URL` | User-provided |
-| Supabase project ref | ✅ set | `SUPABASE_PROJECT_REF` (=`dulxshbpkivndkjhscui`) | Derived from URL |
-| Supabase anon key | ✅ set | `EXPO_PUBLIC_SUPABASE_ANON_KEY` | Fetched via Management API |
-| Supabase service role key | ✅ set | `SUPABASE_SERVICE_ROLE_KEY` | Fetched via Management API |
-| Anthropic API key | ✅ set | `ANTHROPIC_API_KEY` | User-provided (name: `seraya-claude-insights`) |
-| Expo / EAS token | ⏳ deferred | n/a | Skip until device builds are needed |
+## Repo state at handoff time
 
-### Security follow-up (recommend on first opportunity)
+### Commits
 
-Tokens pasted in chat are persisted in the conversation transcript. Rotate after the initial commit:
-
-- **Supabase PAT:** https://supabase.com/dashboard/account/tokens → revoke `seraya-claude-mcp` (or whatever you named it) and generate a fresh one.
-- **Anthropic key:** https://console.anthropic.com/settings/keys → revoke `seraya-claude-insights` and create a replacement.
-- The Supabase **anon + service-role keys** auto-rotated when you regenerated them in the dashboard would invalidate the seed-only setup. They were fetched, not chosen — re-fetching after a project re-key is the workflow.
-
-## Supabase MCP setup (for next session)
-
-Not yet configured. To enable the Supabase MCP server in Claude Code for future sessions, either:
-
-1. Run `claude mcp add supabase --env SUPABASE_ACCESS_TOKEN=<pat> -- npx -y @supabase/mcp-server-supabase@latest --read-only --project-ref=dulxshbpkivndkjhscui` (recommended: scope to the project + read-only by default for safety).
-2. Or edit `.claude/settings.local.json` and add the server block manually.
-
-After config, restart Claude Code. The MCP server exposes tools like `list_projects`, `apply_migration`, `execute_sql`, etc. — preferred over the raw Management API for future migrations.
-
-## Decisions made (so future sessions don't re-litigate)
-
-- **Repo name** `seraya1.0` (user-chosen), private, under `choo-c102`.
-- **Package manager** `pnpm` with `node-linker=hoisted` in `.npmrc` (required for Expo + pnpm to work together).
-- **Expo SDK** `52`. **React Native** `0.76`. **React** `18.3.1`. **expo-router** `~4.0.0`. **react-native-reanimated** `~3.16.0`.
-- **iOS bundle IDs:** `care.seraya.elderly`, `care.seraya.caregiver`. **Android packages:** same.
-- **Supabase region** `ap-southeast-1` (Singapore) per the original plan.
-- **Login screen `43:245`** treated as deprecated (visual duplicate of `9:964`). Confirm with user later.
-- **Trends `11:93` / `33:311` / `33:423`** treated as one screen in different data states, not three routes. Same for heatmap day-detail variants `48:335` / `48:465`.
-- **Question types in schema** must support `scale`, `multiselect`, and `binary` (Figma includes a binary question template that mock-data JSON does not).
-- **Icon-token → metric-id mapping** (see open questions in `design-inventory.md`): `visions→vision`, `sleeping→sleep`, `slowed-movement→balance` (assumed), `auditory→hearing`, `pain-point→pain`, `toothache→toothache`. No Figma icon for `memory` or `tired` yet.
-
-## Schema decisions (in 0001_init.sql)
-
-Drafted autonomously on 2026-05-16. Tables: `caregivers`, `seniors`, `caregiver_seniors`, `questions`, `questionnaires`, `questionnaire_questions`, `alerts`, `checkins`, `checkin_scores`. Key choices, **all overridable**:
-
-1. **Primary keys** are UUIDs (gen_random_uuid). The mock-data slug (`siti`, `liew`, `siva`) is kept on `seniors.slug` as a stable external key — convenient for seeding deterministically.
-2. **`questions.id`** is the **string slug from mock data** (`"vision"`, `"sleep"`, ...), not a UUID. The mock data treats these as stable identifiers and the Figma icon tokens map to them. Keeping it as text keeps seeds + frontend code legible.
-3. **`medical_context`** is a single `jsonb` column on `seniors`. Mock data shows two very different shapes (diabetes vs chemo) — splitting into columns would force premature schema decisions.
-4. **`question_type` enum** includes `'binary'` even though mock JSON only uses `scale` + `multiselect` — Figma node `33:832` shows a yes/no question (medicine taken?). Wired now so we don't migrate later.
-5. **`checkin_scores`** is a single table that uses **either** `score_int` (scale/binary) **or** `selected_options text[]` (multiselect). The check constraint enforces exactly-one. This keeps queries simple and avoids a polymorphic blob.
-6. **`alerts.threshold_metric / threshold_condition / consecutive_days`** mirrors the mock-data `threshold` object 1:1, so seeding is direct.
-7. **RLS is starter-grade.** Caregivers see their own row + their seniors' check-ins/alerts. Seniors see their own data. **Tighten before production** — write paths beyond `checkins/checkin_scores` insert are intentionally not yet allowed by RLS; add them when the caregiver-write flows (questionnaire builder, alert ack) are designed.
-8. **Auth model.** Caregivers MUST link to `auth.users` via `auth_user_id`. Seniors MAY link (some seniors use the elderly app themselves; others are caregiver-managed only — `auth_user_id` is nullable on seniors).
-
-Things the schema does NOT yet handle, deliberately:
-- Notifications / push tokens (not in scope for v1).
-- Audit log of edits to questionnaires.
-- Soft delete (`deleted_at`) — use hard delete + cascades for now; revisit when retention rules are known.
-
-## Open follow-ups / known gaps
-
-1. **Visual verification of Figma screens** — quota was exhausted on 2026-05-16. Re-run the visual inventory pass once the Figma Starter quota resets (or upgrade plan, or export PNGs to `docs/figma-exports/`).
-2. **Wizard symbol nodes** (`64:289`–`64:293`) showed 0 children in metadata. Likely empty placeholders — confirm whether the designer has finished them.
-3. **Pain-point grid count mismatch** — Figma shows 7 tiles, mock-data lists 12 pain options. UI must scroll or paginate.
-4. **No commit yet.** `git status` shows all scaffold files as untracked. The final commit message (per the plan) should be `init: monorepo scaffold`.
-5. **No `pnpm install` has been run.** The next session should run it after Supabase env is set, to verify the deps resolve cleanly.
-6. **Schema review** — `supabase/migrations/0001_init.sql` was drafted autonomously. User should glance at it before it's applied to a real Supabase project, especially the RLS policies and the `score_int`-vs-`selected_options` split in `checkin_scores`.
-7. **Seed UUID mapping** — `supabase/scripts/generate-seed.mjs` hardcodes stable UUIDs for seeded rows so the seed is idempotent and re-runnable: seniors `1111…/2222…/3333…`, questionnaires `aaaa…/bbbb…/cccc…`, demo caregiver `0000…00ca`, check-ins `c0000…01` through `c0000…90`. The demo caregiver has `auth_user_id = null` — link a real Supabase auth user after signup (or run `update caregivers set auth_user_id = '<uuid>' where id = '00000000-0000-0000-0000-0000000000ca'`).
-8. **Sivakumar's missed check-in** (day 7, 2026-04-17) is seeded as a row with `completed = false` and zero score rows — preserves the "missed check-in" data point without breaking the unique constraint on (`senior_id`, `checkin_date`).
-
-## Exactly what the next session should do
-
-1. **Read this file first**, then `docs/design-inventory.md`. Skim `supabase/migrations/0001_init.sql` and `supabase/seed.sql` — both drafted autonomously and need user-eye review.
-2. **Re-prompt the user for Supabase PAT + project choice** (the question is in chat history but not answered). Don't proceed past this without it.
-3. Once the PAT lands:
-   - Add Supabase MCP server to Claude Code config and verify `list_projects` works.
-   - If user picks "create new": create a Supabase project in `ap-southeast-1` with a user-supplied name + database password. Save URL/anon/service keys.
-   - If user picks "existing": ask for the project ref and pull the URL + keys.
-   - Write the keys into `.env` (NOT `.env.example`). Re-confirm `.gitignore` excludes `.env`.
-4. **Review migration + seed with the user.** Walk through any of the schema decisions in the section below that the user should sign off on (RLS, UUID strategy, `binary` question type, `checkin_scores` shape). If they want changes, edit `0001_init.sql` AND re-run `node supabase/scripts/generate-seed.mjs > supabase/seed.sql`.
-5. **Apply migration + seed** against the Supabase project; verify a query returns rows (e.g. `select count(*) from checkins;` → 90).
-6. **Run `pnpm install`** to verify the monorepo dependency graph resolves cleanly.
-7. **Final safety check** before committing: `git status` must NOT list `.env`. `Get-Content .gitignore | Select-String "^\.env"` must succeed. `git ls-files --others --exclude-standard | Select-String "\.env$"` must return nothing.
-    - **Already verified on 2026-05-16:** `git add -n .` dry-run shows 30 files, none of them `.env`, `.claude/`, or anything secret-shaped. Re-run the dry-run anyway after `pnpm install` (which adds `pnpm-lock.yaml`) and after writing real values into `.env`.
-8. **Commit and push** to `origin/main`:
-    ```sh
-    git add .
-    git commit -m "init: monorepo scaffold"
-    git push -u origin main
-    ```
-
-## Mock data source
-
-The user provided `C:\Users\chery\Downloads\seraya-mock-data.json` containing:
-- 9 question definitions (`vision`, `sleep`, `appetite`, `balance`, `hearing`, `memory`, `toothache`, `pain`, `tired`) with scale/multiselect types and label dictionaries.
-- 3 patients with full profiles, alerts, and 30 days of check-ins each (2026-04-10 → 2026-05-09):
-  - **Siti Aminah** (82, female) — generic 8-question questionnaire, has alerts for sleep_decline, appetite_decline, toothache_persistent.
-  - **Liew En Ching** (87, female) — pancreatic cancer / FOLFIRINOX chemo regimen, infusion dates 2026-04-12 and 2026-05-10. Alerts: post_chemo_appetite, fatigue_severe, pain_persistent.
-  - **Sivakumar Thangiah** (76, male) — type-2 diabetes + neuropathy + hypertension. Plays badminton Tue/Sat. Alerts: vision_blur, neuropathy_pain. Has one missed check-in (day 7).
-- Patient `id` field is a string slug (`siti`, `liew`, `siva`). Reuse as the primary key or generate UUIDs and map — ask user.
-
-## Versions / tooling installed this session
-
-- Node `v24.14.1` (pre-existing)
-- npm `11.12.1` (pre-existing)
-- git `2.47.1.windows.2` (pre-existing)
-- pnpm `11.1.2` (installed via `npm i -g pnpm`)
-- gh `2.92.0` (installed via `winget install GitHub.cli`)
-- gh auth — logged in to `github.com` as `choo-c102`, scopes `gist, read:org, repo`.
-
-## Sanity-check commands the next session can run
-
-```powershell
-# Make sure environment is intact
-git status
-git remote -v
-gh auth status
-pnpm -v
-ls docs/
-
-# Make sure .env safety hasn't regressed
-Get-Content .gitignore | Select-String "^\.env"
-
-# Make sure no secrets snuck in
-git ls-files --others --exclude-standard | Select-String -Pattern "\.env$|service_role|sbp_|anthropic"
 ```
+dc0a352 feat: web preview + visual audit + design tokens          ← HEAD
+c7f5300 init: monorepo scaffold
+```
+
+### Uncommitted files (the screen scaffold + supabase lazy-fix)
+
+```
+M apps/caregiver/app.json                 # typedRoutes: false
+M apps/caregiver/app/_layout.tsx          # cream bg, Stack header off
+M apps/caregiver/app/index.tsx            # Redirect → /welcome
+M apps/caregiver/tsconfig.json
+M apps/elderly/app.json                   # typedRoutes: false
+M apps/elderly/app/_layout.tsx
+M apps/elderly/app/index.tsx
+M apps/elderly/tsconfig.json
+M packages/shared/src/supabase.ts         # lazy-init Proxy
+
+?? apps/caregiver/app/(tabs)/             # 11 nested route files
+?? apps/caregiver/app/login.tsx
+?? apps/caregiver/app/role-select.tsx
+?? apps/caregiver/app/welcome.tsx
+?? apps/caregiver/components/             # ~17 components
+?? apps/caregiver/lib/                    # mock-data.ts, wizard-store.ts
+?? apps/caregiver/metro.config.js
+
+?? apps/elderly/app/checkin/              # 4 files: _layout, index, question/[id], complete
+?? apps/elderly/app/login.tsx
+?? apps/elderly/app/role-select.tsx
+?? apps/elderly/app/welcome.tsx
+?? apps/elderly/components/               # 6 components
+?? apps/elderly/lib/                      # mock-data.ts
+?? apps/elderly/metro.config.js
+```
+
+## Key files / paths cheat-sheet
+
+- **Design vocabulary:** `docs/design-inventory.md` (visually verified) + `docs/figma-exports/*.png` (23 source PNGs).
+- **Tokens:** `packages/shared/src/design-tokens.ts` (colors, typography, spacing, radii, shadows, conditionIcons, uiIcons, heatmapTones). Re-exported via `@seraya/shared`.
+- **Mock data:** `supabase/seed-data/seraya-mock-data.json` (3 seniors × 30 days). Read by `apps/<app>/lib/mock-data.ts`.
+- **Apps:** `apps/elderly/app/` and `apps/caregiver/app/` are Expo Router route trees. Shared components duplicated under each app's `components/`.
+- **Supabase schema:** `supabase/migrations/0001_init.sql` + `supabase/seed.sql` (already applied to project `dulxshbpkivndkjhscui`).
+
+## Resume commands
+
+```sh
+# Sanity-check (already verified at handoff time, but cheap to re-run):
+cd C:/Users/chery/projects/seraya && pnpm -r typecheck
+
+# Launch elderly web preview (Claude Preview launch config is wired):
+#   mcp__Claude_Preview__preview_start  name="elderly-web"
+#   → port 8081
+
+# Launch caregiver:
+#   mcp__Claude_Preview__preview_start  name="caregiver-web"
+#   → port 8082
+
+# Compile bundles eagerly so the first nav is fast:
+curl -s -o /dev/null --max-time 300 "http://localhost:8081/$(curl -s http://localhost:8081/ | grep -oE '/node_modules/[^\"]*\.bundle[^\"]*')"
+curl -s -o /dev/null --max-time 300 "http://localhost:8082/$(curl -s http://localhost:8082/ | grep -oE '/node_modules/[^\"]*\.bundle[^\"]*')"
+```
+
+## Environment
+
+- `.env` was set up in session #1 with real Supabase URL / anon key / service role key / PAT and a real Anthropic key. The values are NOT in this file; check `.env` directly. Confirmed working against the live Supabase project (`dulxshbpkivndkjhscui` in `ap-southeast-1`).
+- Node 20+, pnpm 11.1.2 (locked via `packageManager`).
+
+## What to tell the user when you resume
+
+> "Picking up from the screen scaffold. Typecheck passes, both web bundles compile, Welcome renders. The verification screenshot tour was blocked on a `react-native-reanimated` infinite-RAF issue on web — fixing that now, then I'll commit the milestone and walk you through the tour."
+
+Do not summarise what's already done — they know. Just say what's next.
