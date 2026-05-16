@@ -2,9 +2,9 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, radii, shadows, spacing, typography } from "@seraya/shared";
-import { Icon } from "../../../../../../../components/Icon";
-import { ScreenHeader } from "../../../../../../../components/ScreenHeader";
-import { getDraft, resetDraft } from "../../../../../../../lib/wizard-store";
+import { Icon } from "../../../../../../../../components/Icon";
+import { ScreenHeader } from "../../../../../../../../components/ScreenHeader";
+import { getDraft, resetDraft } from "../../../../../../../../lib/wizard-store";
 
 const RESPONSE_LABEL: Record<string, string> = {
   scale: "1-5 Scale",

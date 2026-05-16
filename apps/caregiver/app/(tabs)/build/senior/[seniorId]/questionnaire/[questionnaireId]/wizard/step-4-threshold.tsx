@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, radii, spacing, typography } from "@seraya/shared";
-import { ScreenHeader } from "../../../../../../../components/ScreenHeader";
-import { getDraft, updateDraft } from "../../../../../../../lib/wizard-store";
+import { ScreenHeader } from "../../../../../../../../components/ScreenHeader";
+import { getDraft, updateDraft } from "../../../../../../../../lib/wizard-store";
 
 const MIN = 1;
 const MAX = 10;

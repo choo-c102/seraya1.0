@@ -7,7 +7,9 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router"
+    ],
     "experiments": {
       "typedRoutes": false
     },
@@ -21,6 +23,15 @@
     },
     "android": {
       "package": "care.seraya.elderly"
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "fd705879-fd33-413e-84be-1ddc742c47f7"
+      }
+    },
+    "owner": "choo-c102"
   }
 }

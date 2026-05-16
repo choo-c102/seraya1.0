@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, radii, spacing, typography } from "@seraya/shared";
-import { ScreenHeader } from "../../../../../../../components/ScreenHeader";
-import { getDraft, updateDraft } from "../../../../../../../lib/wizard-store";
+import { ScreenHeader } from "../../../../../../../../components/ScreenHeader";
+import { getDraft, updateDraft } from "../../../../../../../../lib/wizard-store";
 
 export default function WizardStep2Describe() {
   const params = useLocalSearchParams<{ seniorId: string; questionnaireId: string }>();

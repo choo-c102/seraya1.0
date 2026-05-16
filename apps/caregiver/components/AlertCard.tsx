@@ -71,7 +71,7 @@ const RESOURCES: { name: string; phone: string }[] = [
 ];
 
 export function AlertCard({ senior, alert }: Props) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const actions = SUGGESTED_BY_TYPE[alert.type] ?? [
     "Review with the primary caregiver.",
     "Contact the senior's GP within 48 hours.",
@@ -89,7 +89,7 @@ export function AlertCard({ senior, alert }: Props) {
         <View style={styles.headerRight}>
           <StatusPill tone="active" />
           <Icon
-            name="lucide:ChevronDown"
+            name={expanded ? "lucide:ChevronUp" : "lucide:ChevronDown"}
             size={20}
             color={colors.textPrimary}
             strokeWidth={2}

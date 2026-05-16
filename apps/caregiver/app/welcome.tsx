@@ -20,7 +20,7 @@ export default function WelcomeScreen() {
         <Text style={styles.tagline}>Tall as wisdom. Rooted in care.</Text>
       </View>
       <View style={styles.cta}>
-        <PillButton label="ENTER" onPress={() => router.push("/role-select")} />
+        <PillButton label="ENTER" onPress={() => router.push("/login")} />
       </View>
     </SafeAreaView>
   );

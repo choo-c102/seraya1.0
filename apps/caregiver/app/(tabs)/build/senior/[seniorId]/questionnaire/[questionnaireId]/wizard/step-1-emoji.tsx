@@ -2,8 +2,8 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, radii, spacing, typography } from "@seraya/shared";
-import { ScreenHeader } from "../../../../../../../components/ScreenHeader";
-import { updateDraft } from "../../../../../../../lib/wizard-store";
+import { ScreenHeader } from "../../../../../../../../components/ScreenHeader";
+import { updateDraft } from "../../../../../../../../lib/wizard-store";
 
 const EMOJIS = [
   "😴",

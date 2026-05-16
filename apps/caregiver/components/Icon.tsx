@@ -1,9 +1,6 @@
-// Icon helper — accepts string keys like "lucide:Eye" or "phosphor:Tooth"
-// and maps them to lucide-react-native icons. For phosphor:* keys we
-// substitute the closest lucide equivalent.
-//
-// phosphor:Tooth → no lucide tooth — using `Bone` as the closest legible
-// substitute. (Note: Bone is not a perfect match — flagged for follow-up.)
+// Icon helper — accepts string keys like "lucide:Eye", "phosphor:Tooth",
+// or "emoji:🦷" and maps them to the appropriate renderer.
+import { Text } from "react-native";
 import {
   Activity,
   AlertCircle,
@@ -15,6 +12,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   Circle,
   CircleCheck,
   Crosshair,
@@ -51,6 +49,7 @@ const REGISTRY: Record<string, LucideIcon> = {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   Circle,
   CircleCheck,
   Crosshair,
@@ -76,7 +75,6 @@ const REGISTRY: Record<string, LucideIcon> = {
 };
 
 const PHOSPHOR_TO_LUCIDE: Record<string, string> = {
-  Tooth: "Bone",
   Eye: "Eye",
   Pill: "Pill",
   HandHeart: "HeartHandshake",
@@ -91,10 +89,20 @@ export type IconProps = {
 
 export function Icon({ name, size = 24, color = "#1A1A1A", strokeWidth = 2 }: IconProps) {
   const [family, raw] = name.split(":") as [string, string | undefined];
-  let key = raw ?? family;
-  if (family === "phosphor") {
-    key = PHOSPHOR_TO_LUCIDE[key] ?? "Circle";
+  const key = raw ?? family;
+
+  if (family === "emoji") {
+    return (
+      <Text style={{ fontSize: size * 0.8, lineHeight: size, textAlign: "center" }}>
+        {key}
+      </Text>
+    );
   }
-  const Component = REGISTRY[key] ?? Circle;
+
+  let lucideKey = key;
+  if (family === "phosphor") {
+    lucideKey = PHOSPHOR_TO_LUCIDE[key] ?? "Circle";
+  }
+  const Component = REGISTRY[lucideKey] ?? Circle;
   return <Component size={size} color={color} strokeWidth={strokeWidth} />;
 }

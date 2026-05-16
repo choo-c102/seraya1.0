@@ -2,10 +2,10 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, conditionIcons, radii, shadows, spacing, typography } from "@seraya/shared";
-import { Icon } from "../../../../../../components/Icon";
-import { ScreenHeader } from "../../../../../../components/ScreenHeader";
-import { SeniorProfileSummary } from "../../../../../../components/SeniorProfileSummary";
-import { getQuestion, getSenior } from "../../../../../../lib/mock-data";
+import { Icon } from "../../../../../../../components/Icon";
+import { ScreenHeader } from "../../../../../../../components/ScreenHeader";
+import { SeniorProfileSummary } from "../../../../../../../components/SeniorProfileSummary";
+import { getQuestion, getSenior } from "../../../../../../../lib/mock-data";
 
 export default function QuestionBuilderScreen() {
   const params = useLocalSearchParams<{ seniorId: string; questionnaireId: string }>();

@@ -2,8 +2,8 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, radii, shadows, spacing, typography } from "@seraya/shared";
-import { ScreenHeader } from "../../../../../../../components/ScreenHeader";
-import { updateDraft, type WizardResponseType } from "../../../../../../../lib/wizard-store";
+import { ScreenHeader } from "../../../../../../../../components/ScreenHeader";
+import { updateDraft, type WizardResponseType } from "../../../../../../../../lib/wizard-store";
 
 const OPTIONS: { id: WizardResponseType; title: string; desc: string; preview: string }[] = [
   { id: "scale", title: "1-5 Scale", desc: "Rate from 1 to 5 using smiley faces", preview: "😢 😟 😐 🙂 😄" },

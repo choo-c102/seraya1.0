@@ -1,21 +1,28 @@
 import { useRouter } from "expo-router";
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors, radii, shadows, spacing, typography } from "@seraya/shared";
 import { Avatar } from "../../../components/Avatar";
+import { NotificationPanel } from "../../../components/NotificationPanel";
 import { ScreenHeader } from "../../../components/ScreenHeader";
 import { StatusPill } from "../../../components/StatusPill";
 import { formatLastCheckin, getSeniorStatus, seniors } from "../../../lib/mock-data";
 
 export default function DashboardListScreen() {
   const router = useRouter();
+  const [showNotifications, setShowNotifications] = useState(false);
   return (
     <SafeAreaView style={styles.root} edges={["top"]}>
       <ScreenHeader
         title="SELECT USER"
+        showBack={false}
         trailingIcon="lucide:Bell"
-        onTrailingPress={() => Alert.alert("Notifications", "No new alerts.")}
-        onBackPress={() => router.replace("/role-select")}
+        onTrailingPress={() => setShowNotifications(true)}
+      />
+      <NotificationPanel
+        visible={showNotifications}
+        onClose={() => setShowNotifications(false)}
       />
       <ScrollView contentContainerStyle={styles.list}>
         {seniors.map((senior) => {

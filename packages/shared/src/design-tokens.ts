@@ -202,7 +202,7 @@ export const conditionIcons = {
   balance: "lucide:Footprints",
   hearing: "lucide:Ear",
   memory: "lucide:BrainCircuit",
-  toothache: "phosphor:Tooth",
+  toothache: "emoji:🦷",
   pain: "lucide:Crosshair",
   tired: "lucide:BatteryLow",
 
