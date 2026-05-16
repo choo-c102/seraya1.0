@@ -9,7 +9,9 @@
   },
   "scripts": {
     "elderly": "pnpm --filter @seraya/elderly start",
+    "elderly:web": "pnpm --filter @seraya/elderly web",
     "caregiver": "pnpm --filter @seraya/caregiver start",
+    "caregiver:web": "pnpm --filter @seraya/caregiver web",
     "typecheck": "pnpm -r typecheck"
   },
   "devDependencies": {
