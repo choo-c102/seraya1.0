@@ -2,7 +2,7 @@
 
 > **Convention:** This file MUST be kept current. Update it as the working session approaches a context / plan / token limit, OR at every meaningful milestone, whichever comes first. The cold-start agent reads this file before doing anything else.
 
-Last updated: 2026-05-17 (post-MVP polish + collaborator onboarding + safe branch workflow + Claude design workflow added).
+Last updated: 2026-05-19 (Kah Yan context split into ignored docs/context/ folder).
 
 ---
 
@@ -752,3 +752,16 @@ Builds take 10–20 min in the cloud. EAS generates a new shareable link + QR co
 - `.env` at repo root — real Supabase URL / anon key / service role key / PAT + Anthropic key. **Not in git.** Each developer creates their own from `.env.example`.
 - Node 20+, pnpm 11.1.2
 - Supabase project ID: `dulxshbpkivndkjhscui` (region: `ap-southeast-1`)
+
+---
+
+## 2026-05-19 Kah Yan Context Notes
+
+- Added local-only project memory under `docs/context/` split into product brief, implementation state, open questions, and working rules.
+- Added `docs/context/` and `.obsidian/` to `.gitignore`.
+- Context captures Kah Yan's SERAYA MVP brief and notes that Cheryl has written most of the current codebase.
+- Immediate next action: wait for Kah Yan and Cheryl to decide whether SERAYA remains two separate apps or adds role selection, and wait for Kah Yan to provide finalized question sets.
+
+Suggested commit message if committing tracked changes: `docs: ignore local context notes`
+
+- Updated `docs/context/open-questions.md` to record that role selection needs Kah Yan/Cheryl discussion and finalized question sets are pending from Kah Yan.

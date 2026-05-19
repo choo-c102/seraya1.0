@@ -49,6 +49,8 @@ coverage/
 
 # --- Claude Code session state ---
 .claude/
+docs/context/
+.obsidian/
 
 # --- OS junk ---
 .DS_Store
