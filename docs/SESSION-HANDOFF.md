@@ -2,7 +2,7 @@
 
 > **Convention:** This file MUST be kept current. Update it as the working session approaches a context / plan / token limit, OR at every meaningful milestone, whichever comes first. The cold-start agent reads this file before doing anything else.
 
-Last updated: 2026-05-19 (Kah Yan context split into ignored docs/context/ folder).
+Last updated: 2026-05-20 (session compacted — PR #3 open for review).
 
 ---
 
@@ -15,6 +15,8 @@ MVP scaffold is complete and deployed. Both apps are live on Vercel (web) and di
 - Both Vercel deployments are live (re-deploy manually after code changes — see section below)
 - EAS Android builds distributed to testers
 - All mock data — nothing is wired to real Supabase reads yet
+- **PR #3 open** — `fix/hide-checkin-question-text` — removes descriptive prompt text from elderly check-in screen so seniors see only the condition icon + emoji scale. Awaiting collaborator review at: https://github.com/choo-c102/seraya1.0/pull/3
+- Collaborator's `docs/shared-context` branch added collaboration docs; PR from that branch also pending review
 
 **Immediate next session goal:** Wire real Supabase auth + live data (see "Next Milestone" section at the bottom).
 

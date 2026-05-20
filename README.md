@@ -6,6 +6,37 @@ Health monitoring for seniors and caregivers.
 
 Seraya is a two-app React Native + Expo MVP for senior daily health check-ins and caregiver monitoring. The current build uses mock data end-to-end while the app screens, navigation, design tokens, deployment flow, and Android test distribution are in place.
 
+## Live preview
+
+Both apps are deployed on Vercel. They are designed for mobile screens — follow the steps below to get the intended experience in your browser.
+
+| App | URL |
+|---|---|
+| **Elderly app** (senior user) | https://seraya-elderly.vercel.app |
+| **Caregiver app** (caregiver / healthcare worker) | https://seraya-caregiver.vercel.app |
+
+### Simulating a mobile screen in Chrome
+
+#### Windows / Linux
+
+1. Open the app link in Chrome.
+2. Press **`Ctrl + Shift + I`** to open DevTools.
+3. Press **`Ctrl + Shift + M`** to toggle the device toolbar.
+4. In the toolbar that appears at the top of the preview, choose a device — **iPhone 14** or **Galaxy S20** work well — or type **390** in the width field.
+5. Press **`Ctrl + R`** to refresh if the layout does not reflow immediately.
+
+#### Mac
+
+1. Open the app link in Chrome.
+2. Press **`Cmd + Option + I`** to open DevTools.
+3. Press **`Cmd + Shift + M`** to toggle the device toolbar.
+4. Choose a device from the dropdown or set the width to **390**.
+5. Press **`Cmd + R`** to refresh if needed.
+
+> **Tip:** Once the device toolbar is open you can drag the edges of the preview pane to resize it freely. Closing DevTools returns the page to normal desktop view.
+
+---
+
 ## Current status
 
 - MVP scaffold is complete.
