@@ -51,6 +51,7 @@ coverage/
 .claude/
 docs/context/*.local.md
 .obsidian/
+Notion Resources/
 
 # --- OS junk ---
 .DS_Store

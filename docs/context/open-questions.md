@@ -2,30 +2,22 @@
 
 These are clarifications noticed while comparing Kah Yan's product brief with Cheryl's current codebase. Use this as the running discussion list for Kah Yan, Cheryl, and AI collaborators.
 
-## Kah Yan To Provide Later
+## To Review With Cheryl
 
-### Finalized Question Sets
+### MVP Question Set Review
 
-Kah Yan has finalized questions and sets but will provide them later. Do not over-invest in changing the questionnaire content until those are available.
+Kah Yan has provided the first proposed MVP senior-facing question set in `docs/context/mvp-question-set.md`. Cheryl should review whether all questions belong in the default daily check-in or whether some should become optional templates.
 
-Current product brief mentions these possible categories:
-
-- Overall feeling.
-- Pain severity.
-- Pain location.
-- Appetite.
-- Energy/tiredness.
-- Breathing/shortness of breath.
-- Mood/worry.
-- Sleep.
-- Anything else / other problems.
-
-Current observed seed question keys do not obviously include all of these as first-class tracked fields. Once Kah Yan provides the finalized sets, compare them against:
+Compare the proposal against:
 
 - `supabase/seed-data/seraya-mock-data.json`
 - `apps/elderly/lib/mock-data.ts`
 - `apps/caregiver/lib/mock-data.ts`
 - Questionnaire builder screens under `apps/caregiver/app/(tabs)/build/`
+
+### MVP Resource Set Review
+
+Kah Yan has provided the first proposed MVP resource set in `docs/context/mvp-resource-set.md`. Cheryl should review which resources should appear in the caregiver app first and whether resource cards should be static mock data or Supabase-backed.
 
 ## Technical Follow-Ups
 
