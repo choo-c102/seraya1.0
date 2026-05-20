@@ -753,3 +753,14 @@ Builds take 10–20 min in the cloud. EAS generates a new shareable link + QR co
 - Node 20+, pnpm 11.1.2
 - Supabase project ID: `dulxshbpkivndkjhscui` (region: `ap-southeast-1`)
 
+---
+
+## 2026-05-20 Docs Branch Update
+
+- Current branch: `docs/shared-context`.
+- Latest milestone: added shared context docs, MVP question/resource docs, ignored raw Notion exports, and added collaboration workflow docs.
+- Exact next action: open or refresh the PR from `docs/shared-context` into `main`, then ask Cheryl to review.
+- Verified facts: `.env`, `.obsidian/`, `Notion Resources/`, and `docs/context/*.local.md` are ignored; `AGENTS.md` is a symlink to `CLAUDE.md`.
+- Known live issue: no code typecheck was run for docs-only changes.
+- Suggested commit message: `docs: add collaboration workflow`.
+- Uncommitted-file diff snapshot before this commit: `CONTRIBUTING.md`, `CLAUDE.md`, and this handoff update.
