@@ -7,6 +7,8 @@ This folder contains the small set of shared project notes that are useful for K
 - `product-brief.md`: stable product goals, users, MVP scope, design principles, and out-of-scope items.
 - `open-questions.md`: unresolved questions to discuss with Cheryl.
 - `decisions.md`: confirmed decisions, dated and concise.
+- `mvp-question-set.md`: first proposed senior-facing MVP check-in questions.
+- `mvp-resource-set.md`: first proposed MVP resource/link set.
 
 ## Local Files
 

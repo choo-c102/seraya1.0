@@ -19,6 +19,15 @@ The MVP should make daily health check-ins simple enough for seniors while turni
 - Need dashboard summaries, trends, heatmaps, and alerts.
 - Need to understand "so what?" from the data: what changed, what needs attention, and what action or resource may be relevant.
 
+## App Structure
+
+SERAYA is intentionally split into two separate apps for the MVP:
+
+- `apps/elderly`: senior-facing daily check-in experience.
+- `apps/caregiver`: caregiver dashboard, insights, alerts, and questionnaire builder.
+
+The split supports different UX needs, separate distribution, stronger screen-level isolation, and independent release cycles. Shared logic belongs in `packages/shared/` so the apps can stay separate without duplicating common code.
+
 ## MVP Focus
 
 The initial MVP focuses on symptom and pain tracking, especially for elderly people with chronic illness, cancer, palliative care needs, or general ageing-related decline.

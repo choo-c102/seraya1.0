@@ -53,6 +53,12 @@ The scaffolded screens read from `supabase/seed-data/seraya-mock-data.json` via 
 - No new files unless asked.
 - No emojis in user-facing UI unless the design calls for them (it does in the wizard step-1 emoji picker).
 
+## Collaboration workflow
+
+- Before making code changes, follow `CONTRIBUTING.md`: check `git status`, fetch `origin`, inspect open PRs into `main`, pull latest `main`, then create a focused branch.
+- If an open PR touches the same files as the requested work, pause and ask before editing.
+- Do not push directly to `main` unless Kah Yan or Cheryl explicitly asks for it.
+
 ## Commit conventions
 
 - Conventional Commit prefixes: `feat:`, `fix:`, `refactor:`, `chore:`, `docs:`.
