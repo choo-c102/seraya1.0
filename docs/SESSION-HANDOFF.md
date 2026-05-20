@@ -695,22 +695,28 @@ git push -u origin <your-branch-name>
 
 ## Vercel deployment (re-deploy after every code change)
 
-Both apps are deployed as static Expo web exports. **Vercel does NOT auto-update** — every time code changes you must manually re-export and re-deploy. Run in PowerShell, one line at a time:
+Both apps are deployed as static Expo web exports. **Vercel does NOT auto-update** — every time code changes you must manually re-export and re-deploy.
+
+**IMPORTANT:** `expo export` wipes and recreates `dist/` every time, which removes the Vercel project link. You must copy the `.vercel` config into `dist/` after each export before deploying. Run in PowerShell, one line at a time:
 
 ```powershell
-# Caregiver app
+# Caregiver app → https://seraya-caregiver.vercel.app
 cd C:\Users\chery\projects\seraya\apps\caregiver
 npx expo export --platform web
+mkdir -p dist/.vercel
+cp .vercel/project.json dist/.vercel/project.json
 vercel dist --prod
 
-# Elderly app
+# Elderly app → https://seraya-elderly.vercel.app
 cd C:\Users\chery\projects\seraya\apps\elderly
 npx expo export --platform web
+mkdir -p dist/.vercel
+cp .vercel/project.json dist/.vercel/project.json
 vercel dist --prod
 ```
 
-- `expo export` outputs to `dist/` — that's what `vercel dist --prod` uploads
-- First deploy per machine asks setup questions (project name, output dir = `dist`, build command = blank)
+- The `.vercel/project.json` files in each app folder are the persistent project links — do not delete them
+- Elderly project ID: `prj_ngpzBgjbTJV1Q5KNDnVokfTXTPjM`
 - To tear down: `vercel rm <project-name>` or delete from the Vercel dashboard
 
 ## EAS (Android builds for device testing)
