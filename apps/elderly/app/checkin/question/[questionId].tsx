@@ -49,7 +49,6 @@ export default function QuestionScreen() {
 
       <View style={styles.illustration}>
         <Icon name={iconName} size={140} color={colors.textPrimary} strokeWidth={1.5} />
-        <Text style={styles.prompt}>{question.text}</Text>
       </View>
 
       <View style={styles.answer}>
@@ -100,13 +99,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: spacing.xl,
     gap: spacing.lg,
-  },
-  prompt: {
-    fontSize: typography.h2.size,
-    fontWeight: typography.h2.weight,
-    color: colors.textPrimary,
-    textAlign: "center",
-    paddingHorizontal: spacing.lg,
   },
   answer: {
     flex: 1,
